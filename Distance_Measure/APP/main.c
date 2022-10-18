@@ -7,20 +7,22 @@
 
 #include "../HAL/ultrasonic.h"
 #include "../HAL/lcd.h"
-
+#include "avr/io.h" /* To use the IO Ports Registers */
 #include <util/delay.h> /* For the delay functions */
 
 
 int main(void){
 	LCD_init();
+	SREG |= (1<<7);
+
 	Ultrasonic_init();
-	LCD_displayString("Distance =       cm");
+	LCD_displayString("Distance =");
 	while(1){
 		uint16 distance =Ultrasonic_readDistance();
 		LCD_moveCursor(0,11);
 		LCD_intgerToString(distance);
-		if (distance <100)LCD_displayStringRowColumn(0,13," ");
-		_delay_ms(100);
+		LCD_displayString("cm");
+
 	}
 
 }

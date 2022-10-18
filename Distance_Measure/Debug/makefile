@@ -60,7 +60,7 @@ main-build: Distance_Measure.elf secondary-outputs
 Distance_Measure.elf: $(OBJS) $(USER_OBJS) makefile objects.mk $(OPTIONAL_TOOL_DEPS)
 	@echo 'Building target: $@'
 	@echo 'Invoking: AVR C Linker'
-	avr-gcc -Wl,-Map,Distance_Measure.map -mmcu=atmega16 -o "Distance_Measure.elf" $(OBJS) $(USER_OBJS) $(LIBS)
+	avr-gcc -Wl,-Map,Distance_Measure.map -mmcu=atmega32 -o "Distance_Measure.elf" $(OBJS) $(USER_OBJS) $(LIBS)
 	@echo 'Finished building target: $@'
 	@echo ' '
 
@@ -72,7 +72,7 @@ Distance_Measure.lss: Distance_Measure.elf makefile objects.mk $(OPTIONAL_TOOL_D
 
 sizedummy: Distance_Measure.elf makefile objects.mk $(OPTIONAL_TOOL_DEPS)
 	@echo 'Invoking: Print Size'
-	-avr-size --format=avr --mcu=atmega16 Distance_Measure.elf
+	-avr-size --format=avr --mcu=atmega32 Distance_Measure.elf
 	@echo 'Finished building: $@'
 	@echo ' '
 

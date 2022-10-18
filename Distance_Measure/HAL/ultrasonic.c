@@ -12,21 +12,26 @@
 
 
 #include <util/delay.h> /* For the delay functions */
+#include "../std_types.h"
+#include "../common_macros.h"
 
 #include "../MCAL/icu.h"
 #include "ultrasonic.h"
 #include "../MCAL/gpio.h"
+#include "lcd.h"
 
 
-uint16 g_TIMER_VALUE = -1;
-uint8 g_edges=0;
+uint16 g_TIMER_VALUE ;
+uint32 volatile g_edges;
+
 
 void Ultrasonic_init(void){
-	GPIO_setupPinDirection(ultrasonic_trig_port,ultrasonic_trig_pin,PIN_OUTPUT);
-	GPIO_setupPinDirection(ultrasonic_echo_port,ultrasonic_echo_pin,PIN_INPUT);
 	Icu_ConfigType config = {F_CPU_8,RISING};
 	Icu_init(&config);
 	Icu_setCallBack(Ultrasonic_edgeProcessing);
+	GPIO_setupPinDirection(ultrasonic_trig_port,ultrasonic_trig_pin,PIN_OUTPUT);
+//	GPIO_setupPinDirection(ultrasonic_echo_port,ultrasonic_echo_pin,PIN_INPUT);
+
 
 }
 void Ultrasonic_Trigger(void){
@@ -36,24 +41,25 @@ void Ultrasonic_Trigger(void){
 
 }
 uint16 Ultrasonic_readDistance(void){
+	uint16 distance;
 	Ultrasonic_Trigger();
-	Icu_setEdgeDetectionType(RISING);
-	while(g_TIMER_VALUE < 0);
-	uint16 distance= (uint16)((uint64)17000 * ((double)g_TIMER_VALUE) * ((double)F_CPU/F_divide));
-	 g_TIMER_VALUE = -1;
+	while(g_edges != 2);
+	 distance= ((float)(g_TIMER_VALUE)/58.8);
+
+	g_edges=0;
 	 return distance;
 }
 void Ultrasonic_edgeProcessing(void){
-
-	if(g_edges==0){
-	Icu_clearTimerValue();
-	Icu_setEdgeDetectionType(FALLING);
 	g_edges++;
+	if(g_edges==1){
+		Icu_clearTimerValue();
+		Icu_setEdgeDetectionType(FALLING);
 	}
-	else if (g_edges==1){
+	else if (g_edges==2){
 		g_TIMER_VALUE=Icu_getInputCaptureValue();
+		Icu_clearTimerValue();
 		Icu_setEdgeDetectionType(RISING);
-		g_edges=0;
+
 
 	}
 

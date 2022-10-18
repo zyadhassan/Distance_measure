@@ -18,13 +18,12 @@
 /*******************************************************************************
  *                                Definitions                                  *
  *******************************************************************************/
-#define ultrasonic_trig_port    PORTD_ID
+#define ultrasonic_trig_port    PORTB_ID
 #define ultrasonic_trig_pin     PIN5_ID
 
-#define ultrasonic_echo_port    PORTD_ID
-#define ultrasonic_echo_pin     PIN6_ID
+//#define ultrasonic_echo_port    PORTD_ID
+//#define ultrasonic_echo_pin     PIN6_ID
 
-#define F_divide        8
 
 /*******************************************************************************
  *                      Functions Prototypes                                   *
