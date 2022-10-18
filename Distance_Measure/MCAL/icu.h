@@ -40,7 +40,7 @@ typedef struct
 /*
  * Description : Function to initialize the ICU driver
  * 	1. Set the required clock.
- * 	2. Set the required edge detection.
+ * 	2. Set the required edge detection
  * 	3. Enable the Input Capture Interrupt.
  * 	4. Initialize Timer1 Registers
  */

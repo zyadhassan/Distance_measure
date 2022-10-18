@@ -30,7 +30,10 @@ void LCD_init(void)
 	/* Configure the direction for RS and E pins as output pins */
 	GPIO_setupPinDirection(LCD_RS_PORT_ID,LCD_RS_PIN_ID,PIN_OUTPUT);
 	GPIO_setupPinDirection(LCD_E_PORT_ID,LCD_E_PIN_ID,PIN_OUTPUT);
+	GPIO_setupPinDirection(LCD_RW_PORT_ID,LCD_RW_PIN_ID,PIN_OUTPUT);
 
+
+	GPIO_writePin(LCD_RW_PORT_ID,LCD_RW_PIN_ID,LOGIC_LOW);
 	/* Configure the data port as output port */
 	GPIO_setupPortDirection(LCD_DATA_PORT_ID,PORT_OUTPUT);
 
